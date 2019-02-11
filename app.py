@@ -27,11 +27,11 @@ def background_thread():
     while True:
         socketio.sleep(5)
         count += 1
-        t = time.strftime('%M:%S', time.localtime()) # 获取系统时间（只取分:秒）
-        cpus = psutil.cpu_percent(interval=None, percpu=True) # 获取系统cpu使用率 non-blocking
+        t = time.strftime('%M:%S', time.localtime())  # 获取系统时间（只取分:秒）
+        cpus = psutil.cpu_percent(interval=None, percpu=True)  # 获取系统cpu使用率 non-blocking
         socketio.emit('server_response',
                       {'data': [t, *cpus], 'count': count},
-                      namespace='/test') # 注意：这里不需要客户端连接的上下文，默认 broadcast = True ！！！！！！！
+                      namespace='/test')  # 注意：这里不需要客户端连接的上下文，默认 broadcast = True ！！！！！！！
 
 
 @app.route('/')
