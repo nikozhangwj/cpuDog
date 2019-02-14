@@ -27,9 +27,9 @@ def background_thread():
     while True:
         socketio.sleep(5)
         count += 1
-        t = time.strftime('%M:%S', time.localtime())  # 获取系统时间（只取分:秒）
+        t = time.strftime('%H:%M:%S', time.localtime())  # 获取系统时间（取时:分:秒）
         cpu = psutil.cpu_percent(interval=None)  # 获取系统cpu使用率 non-blocking
-        mem = psutil.virtual_memory().percent
+        mem = psutil.virtual_memory().percent  # 获取系统内存使用率
         socketio.emit('server_response',
                       {'data': [t, cpu, mem], 'count': count},
                       namespace='/test')  # 注意：这里不需要客户端连接的上下文，默认 broadcast = True ！！！！！！！

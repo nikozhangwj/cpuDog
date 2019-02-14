@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>ECharts3 Ajax</title>
+    <title>服务器系统性能监控</title>
     <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
     <script type="text/javascript" src="//cdn.bootcss.com/socket.io/1.5.1/socket.io.min.js"></script>
     <!-- ECharts 3 引入 -->
@@ -19,27 +19,49 @@
 
     myChart.setOption({
         title: {
-            text: '服务器系统监控'
+            text: '服务器系统性能监控'
         },
         tooltip: {},
         legend: {
-            data:['cpu']
+            data:['cpu', 'memory']
         },
         xAxis: {
             data: []
         },
-        yAxis: {},
+        yAxis: [
+        {
+            name: 'cpu使用率(%)',
+            type: 'value',
+            max: 100,
+            axisLabel: {
+                formatter: '{value} %'
+            }
+         },
+        {
+            name: '内存使用率(%)',
+            type: 'value',
+            axisLabel: {
+                formatter: '{value} %'
+            }
+         }
+        ],
         series: [{
             name: 'cpu',
             type: 'line',
             data: []
+        },
+        {
+            name: 'memory',
+            type: 'line',
+            yAxisIndex: 1,
+            data: []
         }]
     });
 
-    // 本人笔记本有四个cpu，读者朋友请根据自己的情况，相应修改！！
-    // 五个全局变量：time、cpu1、cpu2、cpu3、cpu4
+    // 三个全局变量：time、cpu、memory
     var time = ["","","","","","","","","",""],
-        cpu = [0,0,0,0,0,0,0,0,0,0]
+        cpu = [0,0,0,0,0,0,0,0,0,0],
+        memory = [0,0,0,0,0,0,0,0,0,0]
 
 
     //准备好统一的 callback 函数
@@ -51,9 +73,11 @@
         // 准备数据
         time.push(res.data[0]);
         cpu.push(parseFloat(res.data[1]));
+        memory.push(parseFloat(res.data[2]));
         if (time.length >= 10){
             time.shift();
             cpu.shift();
+            memory.shift();
         }
 
         // 填入数据
@@ -64,6 +88,10 @@
             series: [{
                 name: 'cpu', // 根据名字对应到相应的系列
                 data: cpu
+            },
+            {
+                name: 'memory',
+                data: memory
             }]
         });
 
