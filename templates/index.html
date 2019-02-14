@@ -23,26 +23,14 @@
         },
         tooltip: {},
         legend: {
-            data:['cpu1','cpu2','cpu3','cpu4']
+            data:['cpu']
         },
         xAxis: {
             data: []
         },
         yAxis: {},
         series: [{
-            name: 'cpu1',
-            type: 'line',
-            data: []
-        },{
-            name: 'cpu2',
-            type: 'line',
-            data: []
-        },{
-            name: 'cpu3',
-            type: 'line',
-            data: []
-        },{
-            name: 'cpu4',
+            name: 'cpu',
             type: 'line',
             data: []
         }]
@@ -51,10 +39,7 @@
     // 本人笔记本有四个cpu，读者朋友请根据自己的情况，相应修改！！
     // 五个全局变量：time、cpu1、cpu2、cpu3、cpu4
     var time = ["","","","","","","","","",""],
-        cpu1 = [0,0,0,0,0,0,0,0,0,0],
-        cpu2 = [0,0,0,0,0,0,0,0,0,0],
-        cpu3 = [0,0,0,0,0,0,0,0,0,0],
-        cpu4 = [0,0,0,0,0,0,0,0,0,0]
+        cpu = [0,0,0,0,0,0,0,0,0,0],
 
 
     //准备好统一的 callback 函数
@@ -65,16 +50,10 @@
 
         // 准备数据
         time.push(res.data[0]);
-        cpu1.push(parseFloat(res.data[1]));
-        cpu2.push(parseFloat(res.data[2]));
-        cpu3.push(parseFloat(res.data[3]));
-        cpu4.push(parseFloat(res.data[4]));
+        cpu.push(parseFloat(res.data[1]));
         if (time.length >= 10){
             time.shift();
-            cpu1.shift();
-            cpu2.shift();
-            cpu3.shift();
-            cpu4.shift();
+            cpu.shift();
         }
 
         // 填入数据
@@ -83,17 +62,8 @@
                 data: time
             },
             series: [{
-                name: 'cpu1', // 根据名字对应到相应的系列
-                data: cpu1
-            },{
-                name: 'cpu2',
-                data: cpu2
-            },{
-                name: 'cpu3',
-                data: cpu3
-            },{
-                name: 'cpu4',
-                data: cpu4
+                name: 'cpu', // 根据名字对应到相应的系列
+                data: cpu
             }]
         });
 
